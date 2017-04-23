@@ -1,0 +1,62 @@
+#!/usr/bin/env bash 
+
+set -e
+
+# Colors
+RESTORE='\033[0m'
+RED='\033[00;31m'
+GREEN='\033[00;32m'
+
+function print_color() {
+  echo -en "$1"
+  echo $2
+  echo -en "${RESTORE}"
+}
+
+function good() { print_color "$GREEN" "$1"; } 
+function bad() { print_color "$RED" "$1"; } 
+
+
+# Make sure we are on a Mac
+if [ "$(uname)" != "Darwin" ]; then
+	bad "This script only works on Mac OSX"
+	exit 1;
+fi
+
+# Make sure brew is installed
+if ! $(command -v brew 2>&1>/dev/null); then
+	good "Installing Homebrew ..."
+	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+# Install git so we can do the clone
+if ! $(command -v git 2>&1>/dev/null); then
+	good "Installing git ..."
+	brew install git
+fi
+
+# Install stow  so we can do the symlinking
+if ! $(command -v stow 2>&1>/dev/null); then
+	good "Installing stow ..."
+	brew install stow
+fi
+
+# Install ZSH... I mean really, why use bash?
+if ! grep -Fxq "$(which zsh)" /etc/shells; then
+	good "Installing ZSH..."
+	brew install zsh
+	which zsh | sudo tee -a /etc/shells
+fi
+
+# Ensure ZSH is setup as the default
+if [ "$(dscl . -read /Users/nzac UserShell | awk -F : '{print $2}' | tr -d '[:space:]')" != "/usr/local/bin/zsh" ]; then
+	good "Setting ZSH as default shell..."
+	chsh -s $(which zsh)
+	echo "ZSH Installed and default"
+fi 
+
+if [ ! -d "$HOME/.dotfiles" ]; then
+	git clone git@github.com:nZac/dots.git $HOME/.dotfiles
+fi
+
+$HOME/.dotfiles/bin/dots
