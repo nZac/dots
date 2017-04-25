@@ -8,6 +8,16 @@ function install_vim() {
 
     stow vim
     vim +PlugInstall +qall tmpbuf
+    vim +PlugUpdate +qall tmpbuf
 }
 
-install_vim
+function install_zsh() {
+    stow zsh
+}
+
+function run() {
+    install_zsh
+    install_vim
+}
+
+run
