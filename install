@@ -1,4 +1,4 @@
-#!/usr/bin/env bash 
+#!/usr/bin/env bash
 
 set -e
 
@@ -13,8 +13,8 @@ function print_color() {
   echo -en "${RESTORE}"
 }
 
-function good() { print_color "$GREEN" "$1"; } 
-function bad() { print_color "$RED" "$1"; } 
+function good() { print_color "$GREEN" "$1"; }
+function bad() { print_color "$RED" "$1"; }
 
 
 # Make sure we are on a Mac
@@ -53,7 +53,7 @@ if [ "$(dscl . -read /Users/nzac UserShell | awk -F : '{print $2}' | tr -d '[:sp
 	good "Setting ZSH as default shell..."
 	chsh -s $(which zsh)
 	echo "ZSH Installed and default"
-fi 
+fi
 
 if [ ! -d "$HOME/.dotfiles" ]; then
 	git clone git@github.com:nZac/dots.git $HOME/.dotfiles
