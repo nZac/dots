@@ -7,6 +7,9 @@ function install_vim() {
         brew install vim
     fi
 
+    if ! ls $HOME/Library/Fonts | grep "Source Code" 2>&1 > /dev/null ; then
+        $HOME/.dotfiles/fonts/install.sh
+    fi
 
     if [ "$(brew list | grep ctags)" != "ctags" ]; then
         brew install ctags
