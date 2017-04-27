@@ -4,3 +4,6 @@
 [submodule "zsh/.zsh/zsh-autosuggestions"]
 	path = zsh/.zsh/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
+[submodule "fonts"]
+	path = fonts
+	url = https://github.com/powerline/fonts.git
