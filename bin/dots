@@ -2,6 +2,12 @@
 
 
 function install_vim() {
+
+    if ! brew list | grep vim 2>&1 > /dev/null ; then
+        brew install vim
+    fi
+
+
     if [ "$(brew list | grep ctags)" != "ctags" ]; then
         brew install ctags
     fi
