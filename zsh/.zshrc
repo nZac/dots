@@ -89,7 +89,7 @@ setopt HIST_REDUCE_BLANKS
 # PROMPT
 ################################################################################
 export PROMPT="$ "
-export RPROMPT="$(pwd) $(date +"%T")"
+export RPROMPT="%~%t %?"
 
 source /usr/local/etc/grc.zsh
 
