@@ -41,13 +41,23 @@ function install_tmux() {
     fi
 
     stow tmux
+}
 
+function install_python_env() {
+
+    if ! $(command -v pyenv 2>&1 > /dev/null); then
+        good "Install pyenv..."
+
+        # PyEnv Install Script
+        curl -L https://git.io/v9ZtW | bash
+    fi
 }
 
 function run() {
     install_zsh
     install_vim
     install_tmux
+    install_python_env
 }
 
 run
