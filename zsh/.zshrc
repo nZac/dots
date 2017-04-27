@@ -11,15 +11,19 @@ fi
 ################################################################################
 # VARIABLES
 ################################################################################
-EDITOR=vim
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+export EDITOR=vim
+export HISTFILE=~/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+export CLICOLOR=true
 
 ################################################################################
 # ALIAS
 ################################################################################
-alias e='vim'
+alias e='$EDITOR'
+
+alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
+
 alias ga='git-add'
 alias gl='git pull --prune'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
@@ -34,6 +38,10 @@ alias gb='git branch'
 alias gs='git status -sb'
 alias gmt='git mergetool'
 
+alias ls="gls -F --color"
+alias l="gls -lAh --color"
+alias ll="gls -l --color"
+alias la='gls -A --color'
 
 ################################################################################
 # AUTO COMPLETE
@@ -77,6 +85,8 @@ setopt HIST_REDUCE_BLANKS
 ################################################################################
 export PROMPT="$ "
 export RPROMPT="$(date +"%T")"
+
+source /usr/local/etc/grc.zsh
 
 ################################################################################
 # PATH

@@ -20,6 +20,14 @@ function install_vim() {
 function install_zsh() {
     stow zsh
 
+    if ! $(command -v gls 2>&1 > /dev/null); then
+        brew install coreutils
+    fi
+
+    if ! $(command -v grc 2>&1 > /dev/null); then
+        brew install grc
+    fi
+}
 
 function install_tmux() {
 
