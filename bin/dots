@@ -15,9 +15,18 @@ function install_vim() {
         brew install ctags
     fi
 
+    last_update_file="$HOME/.vim/vim-plugin-updates"
+    if [ ! -e $last_update_file ]; then
+        touch $last_update_file
+    fi
+
+    if [ $(gstat --format=%Y $last_update_file) -le $(( `date +%s` - 1800 )) ]; then
+        vim +PlugInstall +qall tmpbuf
+        vim +PlugUpdate +qall tmpbuf
+        touch $last_update_file
+    fi
+
     stow vim
-    vim +PlugInstall +qall tmpbuf
-    vim +PlugUpdate +qall tmpbuf
 }
 
 function install_zsh() {
