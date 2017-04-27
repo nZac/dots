@@ -62,11 +62,24 @@ function install_python_env() {
     fi
 }
 
+functions setup_dev_env() {
+    install_python_env
+
+    # Main Projects Directory
+    mkdir -p $HOME/j
+    cat <<EOF > $HOME/.ssh/config
+Host *
+    IdentityFile ~/.ssh/id_rsa
+    AddKeysToAgent yes
+EOF
+
+}
+
 function run() {
     install_zsh
     install_vim
     install_tmux
-    install_python_env
+    setup_dev_env
 }
 
 run
