@@ -13,11 +13,24 @@ function install_vim() {
 
 function install_zsh() {
     stow zsh
+
+
+function install_tmux() {
+
+    if ! $(command -v tmux 2>&1 > /dev/null); then
+        good "Install TMUX..."
+        brew install tmux
+        brew install reattach-to-user-namespace
+    fi
+
+    stow tmux
+
 }
 
 function run() {
     install_zsh
     install_vim
+    install_tmux
 }
 
 run
