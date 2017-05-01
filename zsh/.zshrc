@@ -97,5 +97,6 @@ source /usr/local/etc/grc.zsh
 ################################################################################
 # PYTHON
 ################################################################################
+export PYTHON_CONFIGURE_OPTS="--enable-framework"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
