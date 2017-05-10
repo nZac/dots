@@ -40,6 +40,7 @@ Plug 'MarcWeber/vim-addon-local-vimrc'
 " Reference Library Plugins
 Plug 'tomtom/tlib_vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'vim-scripts/Align'
 
 " Language Plugins
 Plug 'sheerun/vim-polyglot'
@@ -53,6 +54,7 @@ Plug 'mxw/vim-jsx'
 Plug 'elmcast/elm-vim'
 Plug 'vimwiki/vimwiki'
 Plug 'rust-lang/rust.vim'
+Plug 'vim-scripts/SQLUtilities'
 
 " Plugins that are nice in order of use
 Plug 'scrooloose/nerdtree'
@@ -195,6 +197,9 @@ let g:ycm_key_list_previous_completion   = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType      = '<C-p>'
 let g:SuperTabCrMapping = 0
 
+let g:sqlutil_keyword_case = '\U'
+let g:sqlutil_align_comma = 1
+
 " Change the curson in different modes
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
@@ -280,6 +285,8 @@ nmap <silent> <leader>d <Plug>DashSearch
 
 xmap ga <Plug>(LiveEasyAlign)
 nmap ga <Plug>(LiveEasyAlign)
+
+vmap <leader>fs <Plug>SQLUFormatter<CR>
 
 "------------------------------------------------------------------------------
 " Custom Functions
