@@ -97,8 +97,51 @@ setopt HIST_REDUCE_BLANKS
 ################################################################################
 # PROMPT
 ################################################################################
-export PROMPT="$ "
-export RPROMPT="%~%t %?"
+if (( $+commands[git] ))
+then
+  git="$commands[git]"
+else
+  git="/usr/bin/git"
+fi
+
+unpushed () {
+  $git cherry -v @{upstream} 2>/dev/null
+}
+
+need_push () {
+  if [[ $(unpushed) == "" ]]
+  then
+    echo ""
+  else
+    echo " with %{$fg_bold[magenta]%}unpushed%{$reset_color%} "
+  fi
+}
+
+git_prompt_info () {
+ ref=$($git symbolic-ref HEAD 2>/dev/null) || return
+ echo "${ref#refs/heads/}"
+}
+
+git_dirty() {
+  if $(! $git status -s &> /dev/null)
+  then
+    echo ""
+  else
+    if [[ $($git status --porcelain) == "" ]]
+    then
+      echo "%{$fg_bold[green]%}[$(git_prompt_info)]%{$reset_color%}"
+    else
+      echo "%{$fg_bold[red]%}[$(git_prompt_info)]%{$reset_color%}"
+    fi
+  fi
+}
+
+function rprompt() {
+    echo "(%?) %~ $(git_dirty) $(need_push)"
+}
+
+export PROMPT=$'$(rprompt)\n$ '
+# export RPROMPT=$'$(rprompt) '
 
 source /usr/local/etc/grc.zsh
 
