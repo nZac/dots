@@ -272,15 +272,15 @@ map <leader>p "*p
 "------------------------------------------------------------------------------
 " Plugin mappings
 "------------------------------------------------------------------------------
-nnoremap <leader>t :CtrlP<cr>
+nnoremap <leader>ff :CtrlP<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>l :CtrlPLine<cr>
 nnoremap <leader>h :TagbarToggle<CR>   " Toggle Tabar
 nnoremap <leader>a :Scratch<CR>
 
-nmap <silent> <leader>ff :TestNearest<CR>
-nmap <silent> <leader>fd :TestFile<CR>
-nmap <silent> <leader>fa :TestSuite<CR>
+nmap <silent> <leader>tn :TestNearest<CR>
+nmap <silent> <leader>tf :TestFile<CR>
+nmap <silent> <leader>ta :TestSuite<CR>
 
 nmap <silent> <leader>d <Plug>DashSearch
 
