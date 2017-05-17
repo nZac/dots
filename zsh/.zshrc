@@ -110,11 +110,10 @@ unpushed () {
 }
 
 need_push () {
-  if [[ $(unpushed) == "" ]]
-  then
-    echo ""
+  if [[ $(unpushed) == "" ]]; then
+      return 0;
   else
-    echo " with %{$fg_bold[magenta]%}unpushed%{$reset_color%} "
+      echo " with %{$fg_bold[magenta]%}unpushed%{$reset_color%}"
   fi
 }
 
@@ -137,11 +136,19 @@ git_dirty() {
   fi
 }
 
-function rprompt() {
-    echo "(%?) %~ $(git_dirty) $(need_push)"
+venv_status() {
+    if [ -z "$PYENV_ACTIVATE_SHELL" ]; then
+        return 0;
+    fi
+
+    echo "($PYENV_VERSION)";
 }
 
-export PROMPT=$'$(rprompt)\n$ '
+function prompt() {
+    echo "(%?) %~ $(git_dirty) $(need_push) $(venv_status)"
+}
+
+export PROMPT=$'$(prompt)\n$ '
 # export RPROMPT=$'$(rprompt) '
 
 source /usr/local/etc/grc.zsh
@@ -151,5 +158,11 @@ source /usr/local/etc/grc.zsh
 # PYTHON
 ################################################################################
 export PYTHON_CONFIGURE_OPTS="--enable-framework"
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+################################################################################
+# GO
+################################################################################
+export GOPATH="$HOME/go"
