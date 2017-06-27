@@ -16,6 +16,17 @@
 " Load all of the plugins I like
 call plug#begin('~/.vim/plugged')
 
+
+function! BuildYCM(info)
+  " info is a dictionary with 3 fields
+  " - name:   name of the plugin
+  " - status: 'installed', 'updated', or 'unchanged'
+  " - force:  set on PlugInstall! or PlugUpdate!
+  if a:info.status == 'installed' || a:info.force
+    !./install.py
+  endif
+endfunction
+
 " Must have plugins
 Plug 'gmarik/vundle'
 Plug 'mhinz/vim-signify'
@@ -28,7 +39,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'davidhalter/jedi-vim'
 Plug 'ervandew/supertab'
 Plug 'janko-m/vim-test'
