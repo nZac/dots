@@ -90,7 +90,7 @@ syntax enable
 set autoread
 set backspace=2
 set colorcolumn=80,100
-"set cursorline
+set cursorline
 set confirm
 set conceallevel=0
 set fileformat=unix
