@@ -28,7 +28,6 @@ function! BuildYCM(info)
 endfunction
 
 " Must have plugins
-Plug 'gmarik/vundle'
 Plug 'mhinz/vim-signify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
