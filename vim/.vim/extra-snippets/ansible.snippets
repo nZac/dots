@@ -1,0 +1,105 @@
+priority -50
+
+snippet breakpoint "Set a failling debug breakpoint" b
+- fail: msg="DEBUG"
+endsnippet
+
+snippet template "Templates a file out to a remote server." b
+- name: ${1}
+	template:
+		src: ${2}
+		dest: /$2
+		owner: ${4}
+		group: ${5}
+		mode: ${6:0644}
+endsnippet
+
+
+snippet copy "Copy a file out to a remote server." b
+- name: ${1}
+	copy:
+		src: ${2}
+		dest: /$2
+		owner: ${4}
+		group: ${5}
+		mode: ${6:0644}
+endsnippet
+
+snippet file "Set file system properties" b
+- name: ${1}
+	file:
+		path: ${2}
+		state: ${3:directory}
+		owner: ${4:root}
+		group: ${5:root}
+		mode: ${6:0755}
+endsnippet
+
+
+snippet mkdir "Shortcut for making a directory" b
+- name: ${1}
+	file:
+		path: ${2}
+		state: directory
+		owner: ${3}
+		group: ${4}
+		mode: ${7:0755}
+endsnippet
+
+
+snippet test "Create a test " b
+- assert:
+		that:
+			- ${0}
+		msg: "${1}"
+endsnippet
+
+
+snippet apt "Install a debian based package" b
+- name: ${1}
+	apt:
+		pkg: ${2}
+		state: ${3:installed}
+		${4:update_cache: yes}
+		${5:cache_valid_time: 3600}
+endsnippet
+
+
+snippet aptrepo "Install a debian based package repository" b
+- name: ${1}
+	apt_repository:
+		repo: '${2:ppa:nginx/stable}'
+		state: ${3:present}
+		filename: ${4}
+		update_cache: ${5:yes}
+endsnippet
+
+
+snippet shell "Run a shell script" b
+- name: ${1}
+	shell: ${4}
+	args:
+		chdir: ${2}
+		creates: ${3}
+endsnippet
+
+
+snippet tarx "Untar the file" b
+- name: ${1}
+	unarchive:
+		src: ${2}
+		dest: ${3}
+		owner: ${4}
+		group: ${5}
+		mode: ${6:0755}
+		remote_src: ${4:True}
+endsnippet
+
+
+snippet enableservice "Turn on a service at startup" b
+- name: Start and enable $1
+	service:
+		name: ${1}
+		state: started
+		enabled: ${2:yes}
+endsnippet

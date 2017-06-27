@@ -1,0 +1,33 @@
+priority -50
+
+snippet sa12mc "Create the child side of the 1-M relationship"
+${1}_id = sa.Column(sa.Integer, sa.ForeignKey('$1.id'))
+endsnippet
+
+snippet sa12mp "Create the parent side of the 1-M relationship"
+${1} = sa.orm.relationship('${2}'${3:, backref='${4}'})
+endsnippet
+
+snippet saentity "Create a standard ORM entity"
+class ${1}(db.Model${2:, DefaultMixin}):
+	__tablename__ = '${3:`!p snip.rv = t[1].lower()`}'
+endsnippet
+
+snippet saunicode "Create a unicode ORM field"
+${1} = sa.Column(sa.Unicode${2:, nullable=False}${2:, unique=True})
+endsnippet
+
+snippet saarrow "Create a unicode ORM field"
+${1} = sa.Column(sa.Unicode${2:, nullable=False}${2:, unique=True})
+endsnippet
+
+snippet sauc "Create a unique constraint"
+__table_args__ = (
+	sa.UniqueConstraint(${1}),
+)
+endsnippet
+
+
+snippet pdb "Setup PDB"
+import pdb; pdb.set_trace()
+endsnippet
