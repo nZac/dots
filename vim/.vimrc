@@ -65,7 +65,7 @@ Plug 'elmcast/elm-vim'
 Plug 'vimwiki/vimwiki'
 Plug 'rust-lang/rust.vim'
 Plug 'vim-scripts/SQLUtilities'
-Plug 'ternjs/tern_for_vim'
+Plug 'leafgarland/typescript-vim', { 'do': 'npm -g install typescript' }
 
 " Plugins that are nice in order of use
 Plug 'scrooloose/nerdtree'
