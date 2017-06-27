@@ -159,6 +159,7 @@ augroup vimrc_autocmd
     autocmd FileType python setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4 textwidth=80 comments=b:#,fb:-,b:#:
     autocmd FileType markdown setlocal textwidth=80  " wrap at 80
     autocmd FileType elm setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 textwidth=100
+    autocmd FileType sh setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2 textwidth=0
 
     "------------------------------------------------------------------------------
     " Editor Settings
