@@ -211,6 +211,7 @@ let g:SuperTabCrMapping = 0
 
 let g:sqlutil_keyword_case = '\U'
 let g:sqlutil_align_comma = 1
+let g:closetag_html_style=1
 
 " Change the curson in different modes
 let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
