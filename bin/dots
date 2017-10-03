@@ -78,6 +78,27 @@ Host *
     AddKeysToAgent yes
 EOF
 
+
+}
+
+functions setup_git() {
+    if [ ! -f ~/.gitconfig ]; then
+        echo "Configuring Git for this machine"
+
+        stow git
+
+        echo -n "Enter your name and press [ENTER]: "
+        read name
+        git config --global user.name "$name"
+
+        echo -n "Enter your email and press [ENTER]: "
+        read email
+        git config --global user.email "$email"
+
+        git config --global core.excludesfile "~/.gitignore_global"
+    else
+        echo "Git is setup as $(git config --global user.name) <$(git config --global user.email)>"
+    fi
 }
 
 function run() {
@@ -85,6 +106,7 @@ function run() {
     install_vim
     install_tmux
     setup_dev_env
+    setup_git
 }
 
 run
