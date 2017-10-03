@@ -1,0 +1,13 @@
+.DS_Store
+*~
+*.swp
+*.css.map
+*.egg*
+*.pyc
+.vagrant
+*.egg-info
+.coverage
+.cache
+.python-version
+_vimrc_local.vim
+node_modules
