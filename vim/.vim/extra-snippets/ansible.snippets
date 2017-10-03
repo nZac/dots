@@ -74,6 +74,25 @@ snippet aptrepo "Install a debian based package repository" b
 		update_cache: ${5:yes}
 endsnippet
 
+snippet aptpkg "Install a debian based package key, repository, and package" b
+- name: Add the ${1} key
+	apt_key:
+		url: "${2}"
+		state: present
+
+- name: Add the $1 repository
+	apt_repository:
+		repo: '${3:ppa:nginx/stable}'
+		state: present
+		filename: ${4:$1}
+		update_cache: ${5:yes}
+
+- name: Install the $1 package
+	apt:
+		pkg: $1
+		state: installed
+endsnippet
+
 
 snippet shell "Run a shell script" b
 - name: ${1}
@@ -102,4 +121,22 @@ snippet enableservice "Turn on a service at startup" b
 		name: ${1}
 		state: started
 		enabled: ${2:yes}
+endsnippet
+
+snippet user_group "Create a user and group combo"
+- name: Create the $1 group
+	group: ${1}
+		state: ${2:present}
+		system: ${3:no}
+		${4:gid: 000}
+
+- name: Create the $1 user
+	user:
+		name: $1
+		shell: ${5:/sbin/nologin}
+		state: $2
+		group: ${6:$1}
+		${7:groups: ${8}}
+		${9:append: yes}
+		createhome: ${10}
 endsnippet
