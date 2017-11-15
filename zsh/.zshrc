@@ -16,11 +16,12 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=10000
 export CLICOLOR=true
+export GPG_TTY=$(tty)
 
 ################################################################################
 # PATH
 ################################################################################
-export PATH=$HOME/.pyenv/bin:$HOME/.dotfiles/bin:./node_modules/.bin:$PATH
+export PATH=$HOME/.cargo/bin:$HOME/.pyenv/bin:$HOME/.dotfiles/bin:./node_modules/.bin:/usr/local/sbin:$PATH
 
 ################################################################################
 # ALIAS
