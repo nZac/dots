@@ -66,6 +66,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'rust-lang/rust.vim'
 Plug 'vim-scripts/SQLUtilities'
 Plug 'leafgarland/typescript-vim', { 'do': 'npm -g install typescript' }
+Plug 'hail2u/vim-css3-syntax'
 
 " Plugins that are nice in order of use
 Plug 'scrooloose/nerdtree'
