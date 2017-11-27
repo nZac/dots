@@ -42,7 +42,7 @@ Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'davidhalter/jedi-vim'
 Plug 'ervandew/supertab'
 Plug 'janko-m/vim-test'
-Plug 'closetag.vim'
+Plug 'vimscripts/closetag.vim'
 Plug 'rizzatti/dash.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'MarcWeber/vim-addon-local-vimrc'
