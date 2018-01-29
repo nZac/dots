@@ -192,8 +192,8 @@ let g:tagbar_show_linenumbers = 1
 let test#javascript#runner = 'mocha'
 
 let test#python#pytest#options = {
-                                    \ 'nearest': '-x -s -vv --pudb --strict -rw',
-                                    \ 'file': '-x -s -vv --pudb --strict -rw',
+                                    \ 'nearest': '-x -s -vv --strict --pdb -rw',
+                                    \ 'file': '-x -s -vv --strict -rw',
                                     \ 'suite': '',
                                 \}
 
