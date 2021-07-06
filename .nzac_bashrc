@@ -1,0 +1,13 @@
+set -o vi
+
+export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" '
+export EDITOR=vim
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+export GPG_TTY=$(tty)
+
+alias dots='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias e=$EDITOR
+
+if [ -f $HOME/.cargo/env ]; then
+  source "$HOME/.cargo/env"
+fi
