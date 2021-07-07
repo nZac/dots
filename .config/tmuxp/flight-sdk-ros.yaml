@@ -1,0 +1,13 @@
+session_name: flight-sdk-ros
+start_directory: "${PROJECTS_DIR}"
+windows:
+    - window_name: src
+      options:
+          main-pane-width: 200
+      layout: main-vertical
+      shell_command_before:
+          - cd flight-sdk-ros
+      panes:
+          - echo
+          - echo
+          - echo
