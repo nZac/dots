@@ -15,9 +15,12 @@ filetype plugin indent on
 
 let mapleader = ";"
 
-" Security
+" General Settings
+set exrc
+set secure
 set modelines=0
 set mouse=a
+set autoread
 
 " Show line numbers
 set number
@@ -124,3 +127,7 @@ nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>fb <esc>:b#<CR>
 nnoremap <leader>fT :Tags<CR>
 nnoremap <leader>ft :BTags<CR>
+
+let g:ale_completion_enabled = 1
+packloadall
+silent! helptags ALL
