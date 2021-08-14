@@ -6,7 +6,7 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
 export PROJECTS_DIR=$HOME/j
 
-alias dots='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias dots='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias e=$EDITOR
 
 if [ -f $HOME/.cargo/env ]; then
