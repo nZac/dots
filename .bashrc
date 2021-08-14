@@ -22,6 +22,14 @@ then
     source $(pyenv root)/completions/pyenv.bash
 fi
 
+if command -v go &> /dev/null
+then
+    export GOPATH="$HOME/j/go"
+    export PATH="$GOPATH/bin:$PATH"
+fi
+
+export PATH=$HOME/bin:$PATH
+
 
 ################################################################################
 # PROMPT
