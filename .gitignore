@@ -15,6 +15,7 @@
 j/
 snap/
 tmp/
+bin/
 
 .config/Code/
 .config/dconf/
