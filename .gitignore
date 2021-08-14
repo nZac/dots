@@ -17,6 +17,8 @@ snap/
 tmp/
 bin/
 
+*.code-workspace
+
 .config/Code/
 .config/dconf/
 .config/enchant/
