@@ -1,3 +1,5 @@
 [user]
 	email = nick@nickzaccardi.com
 	name = Nick Zaccardi
+[core]
+	excludesfile = /home/nzac/.config/git/.gitignore_global

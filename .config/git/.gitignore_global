@@ -1,0 +1,10 @@
+.bash_history
+.bash_logout
+.cache
+.lesshst
+.mozilla
+.nix-channels
+.nix-defexpr
+j/
+snap/
+tmp/
