@@ -13,11 +13,14 @@ if [ -f $HOME/.cargo/env ]; then
   source "$HOME/.cargo/env"
 fi
 
-export PYENV_ROOT="$HOME/j/pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv virtualenv-init -)"
-source $(pyenv root)/completions/pyenv.bash
+if command -v pyenv &> /dev/null
+then
+    export PYENV_ROOT="$HOME/j/pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv virtualenv-init -)"
+    source $(pyenv root)/completions/pyenv.bash
+fi
 
 
 ################################################################################
