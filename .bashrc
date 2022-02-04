@@ -13,6 +13,10 @@ if [ -f $HOME/.cargo/env ]; then
   source "$HOME/.cargo/env"
 fi
 
+if [ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
+    source $HOME/.nix-profile/etc/profile.d/nix.sh
+fi
+
 if command -v pyenv &> /dev/null
 then
     export PYENV_ROOT="$HOME/j/pyenv"
