@@ -1,5 +1,6 @@
 [user]
-	email = nick@nickzaccardi.com
-	name = Nick Zaccardi
+    email = nick@nickzaccardi.com
+    name = Nick Zaccardi
+    signingkey = 8E9AC0F55EB1256B
 [core]
-	excludesfile = /home/nzac/.config/git/.gitignore_global
+    excludesfile = /home/nzac/.config/git/.gitignore_global

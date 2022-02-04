@@ -16,10 +16,13 @@ j/
 snap/
 tmp/
 bin/
+Desktop/
+fontconfig/
 
 *.code-workspace
 
 .config/Code/
+.config/cachix
 .config/dconf/
 .config/enchant/
 .config/evolution/
@@ -27,6 +30,7 @@ bin/
 .config/gnome-initial-setup-done
 .config/gtk-3.0/
 .config/ibus/
+.config/nix
 .config/pulse/
 .config/user-dirs.dirs
 .config/user-dirs.locale
@@ -40,6 +44,8 @@ bin/
 .config/Synergy/
 .synergy
 .viminfo
+.parallels
+.vim
 
 .vscode-server/
 .vscode/
