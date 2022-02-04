@@ -4,5 +4,6 @@
     signingkey = 8E9AC0F55EB1256B
 [core]
     excludesfile = /home/nzac/.config/git/.gitignore_global
+	editor = vim
 [commit]
 	gpgsign = true
