@@ -1,25 +1,25 @@
-.cfg
-.cache
-
 .bash_logout
-
 .profile
 .lesshst
 .wget-hsts
 .bash_history
 
+.cache
+.cfg
 .mozilla
 .nix-channels
-.nix-profile
 .nix-defexpr
-j/
-snap/
-tmp/
-bin/
-Desktop/
-fontconfig/
+.nix-profile
+.npm
+.nvm
+Desktop
+bin
+fontconfig
+go
+j
+snap
+tmp
 
-*.code-workspace
 
 .config/Code/
 .config/cachix
@@ -47,5 +47,8 @@ fontconfig/
 .parallels
 .vim
 
+
+# VS Code
 .vscode-server/
 .vscode/
+*.code-workspace
