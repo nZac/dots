@@ -28,6 +28,10 @@ then
     source $(pyenv root)/completions/pyenv.bash
 fi
 
+if [ -f /usr/local/go/bin/go ]; then
+    export PATH=/usr/local/go/bin:$PATH
+fi
+
 if command -v go &> /dev/null
 then
     export GOPATH="$HOME/j/go"
