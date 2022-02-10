@@ -1,5 +1,7 @@
 set -o vi
 
+source /etc/profile.d/bash_completion.sh
+
 export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" '
 export EDITOR=vim
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
