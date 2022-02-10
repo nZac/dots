@@ -38,6 +38,13 @@ then
     export PATH="$GOPATH/bin:$PATH"
 fi
 
+if command -v nvm &> /dev/null
+then
+    export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
+
 export PATH=$HOME/bin:$PATH
 
 
@@ -53,3 +60,7 @@ user_host_info() {
 }
 export PS1=$'$(user_host_info) λ '
 export PS2=$''
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
