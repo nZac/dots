@@ -55,10 +55,16 @@ export PATH=$HOME/bin:$PATH
 user_host_info() {
     # Print out the hostname if this prompt is over ssh
     if [ -v ${SSH_CLIENT+} ]; then
-        echo "[${HOSTNAME}]"
+        echo "${HOSTNAME}"
     fi
 }
-export PS1=$'$(user_host_info) λ '
+
+git_root() {
+    local gitpath="$(git rev-parse --show-toplevel)"
+    echo "$(basename "$gitpath")"
+}
+
+export PS1=$'[$(user_host_info):$(git_root)] λ '
 export PS2=$''
 
 export NVM_DIR="$HOME/.nvm"
