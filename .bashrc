@@ -1,6 +1,8 @@
 set -o vi
 
-source /etc/profile.d/bash_completion.sh
+if [ -f /etc/profile.d/bash_completion.sh ]; then
+    source "/etc/profile.d/bash_completion.sh"
+fi
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" '
 export EDITOR=vim
