@@ -4,9 +4,11 @@ source /etc/profile.d/bash_completion.sh
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" '
 export EDITOR=vim
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
 export PROJECTS_DIR=$HOME/j
+
+# If not using 1Password for SSH authentication, uncomment this
+# export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 alias dots='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias e=$EDITOR
