@@ -4,6 +4,7 @@
 .wget-hsts
 .bash_history
 
+.aws
 .cache
 .cfg
 .mozilla
@@ -12,6 +13,7 @@
 .nix-profile
 .npm
 .nvm
+.terraform.d
 Desktop
 bin
 fontconfig
