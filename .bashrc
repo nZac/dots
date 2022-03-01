@@ -60,7 +60,7 @@ user_host_info() {
 }
 
 git_root() {
-    local gitpath="$(git rev-parse --show-toplevel)"
+    local gitpath="$(git rev-parse --show-toplevel > /dev/null 2>&1)"
     echo "$(basename "$gitpath")"
 }
 

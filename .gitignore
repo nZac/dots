@@ -23,6 +23,7 @@ snap
 tmp
 
 
+.config/monitors.xml
 .config/Code/
 .config/cachix
 .config/dconf/
