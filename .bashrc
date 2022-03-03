@@ -68,6 +68,10 @@ git_root() {
     echo "$(basename "$gitpath")"
 }
 
+if [ "$(uname)" == "Darwin" ]; then
+    PATH=/opt/homebrew/bin:$PATH
+fi
+
 export PS1=$'[$(user_host_info):$(git_root)] λ '
 export PS2=$''
 
