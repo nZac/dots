@@ -70,6 +70,11 @@ git_root() {
 
 if [ "$(uname)" == "Darwin" ]; then
     PATH=/opt/homebrew/bin:$PATH
+    rm -f $HOME/.gnupg/gpg-agent.conf
+    ln -s $HOME/.gnupg/gpg-agent.conf.mac $HOME/.gnupg/gpg-agent.conf
+else
+    rm -f$HOME/.gnupg/gpg-agent.conf
+    ln -s $HOME/.gnupg/gpg-agent.conf.linux $HOME/.gnupg/gpg-agent.conf
 fi
 
 export PS1=$'[$(user_host_info):$(git_root)] λ '

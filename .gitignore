@@ -39,6 +39,8 @@ tmp
 .config/user-dirs.locale
 .local/share/
 .gnupg/
+!.gnupg/gpg-agent.conf.mac
+!.gnupg/gpg-agent.conf.linux
 .local/
 .pki/
 .ssh/
