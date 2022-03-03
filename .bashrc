@@ -19,6 +19,10 @@ if [ -f $HOME/.cargo/env ]; then
   source "$HOME/.cargo/env"
 fi
 
+if [ -f /etc/profile.d/nix.sh ]; then
+    source /etc/profile.d/nix.sh
+fi
+
 if [ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
     source $HOME/.nix-profile/etc/profile.d/nix.sh
 fi
@@ -79,7 +83,3 @@ fi
 
 export PS1=$'[$(user_host_info):$(git_root)] λ '
 export PS2=$''
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
