@@ -9,11 +9,18 @@ export EDITOR=vim
 export GPG_TTY=$(tty)
 export PROJECTS_DIR=$HOME/j
 
+
 # If not using 1Password for SSH authentication, uncomment this
 # export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 alias dots='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias e=$EDITOR
+
+
+# Support user based docker
+if [ -S "/run/user/$(id -u)/docker.sock" ]; then
+    export DOCKER_HOST="unix:///run/user/$(id -u)/docker.sock" 
+fi
 
 if [ -f $HOME/.cargo/env ]; then
   source "$HOME/.cargo/env"
@@ -77,7 +84,7 @@ if [ "$(uname)" == "Darwin" ]; then
     rm -f $HOME/.gnupg/gpg-agent.conf
     ln -s $HOME/.gnupg/gpg-agent.conf.mac $HOME/.gnupg/gpg-agent.conf
 else
-    rm -f$HOME/.gnupg/gpg-agent.conf
+    rm -f $HOME/.gnupg/gpg-agent.conf
     ln -s $HOME/.gnupg/gpg-agent.conf.linux $HOME/.gnupg/gpg-agent.conf
 fi
 
