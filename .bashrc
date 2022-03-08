@@ -53,7 +53,12 @@ then
     export PATH="$GOPATH/bin:$PATH"
 fi
 
-if command -v nvm &> /dev/null
+if command -v direnv &> /dev/null
+then
+    eval "$(direnv hook bash)"
+fi
+
+if [ -f $HOME/.nvm/nvm.sh ]; 
 then
     export NVM_DIR="$HOME/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
