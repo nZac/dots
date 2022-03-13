@@ -65,7 +65,7 @@ then
         [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
-export PATH=$HOME/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
 
 ################################################################################
@@ -80,7 +80,7 @@ user_host_info() {
 }
 
 git_root() {
-    local gitpath="$(git rev-parse --show-toplevel > /dev/null 2>&1)"
+    local gitpath="$(git rev-parse --show-toplevel 2> /dev/null)"
     echo "$(basename "$gitpath")"
 }
 
