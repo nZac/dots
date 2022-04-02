@@ -95,3 +95,15 @@ fi
 
 export PS1=$'[$(user_host_info):$(git_root)] λ '
 export PS2=$''
+
+
+#----
+listening() {
+    if [ $# -eq 0 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P
+    elif [ $# -eq 1 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color $1
+    else
+        echo "Usage: listening [pattern]"
+    fi
+}
