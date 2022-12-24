@@ -1,5 +1,9 @@
 set -o vi
 
+if [ "$(uname)" == "Darwin" ]; then
+    PATH=/opt/homebrew/bin:$PATH
+fi
+
 if [ -f /etc/profile.d/bash_completion.sh ]; then
     source "/etc/profile.d/bash_completion.sh"
 fi
@@ -24,6 +28,10 @@ fi
 
 if [ -f $HOME/.cargo/env ]; then
   source "$HOME/.cargo/env"
+fi
+
+if [ -f $HOME/.config/op/plugins.sh ]; then
+  source "$HOME/.config/op/plugins.sh"
 fi
 
 if [ -f /etc/profile.d/nix.sh ]; then
@@ -53,10 +61,6 @@ then
     export PATH="$GOPATH/bin:$PATH"
 fi
 
-if command -v direnv &> /dev/null
-then
-    eval "$(direnv hook bash)"
-fi
 
 if [ -f $HOME/.nvm/nvm.sh ]; 
 then
@@ -67,6 +71,10 @@ fi
 
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
+if command -v direnv &> /dev/null
+then
+    eval "$(direnv hook bash)"
+fi
 
 ################################################################################
 # PROMPT
