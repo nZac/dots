@@ -7,3 +7,5 @@
 	editor = vim
 [commit]
 	gpgsign = true
+[init]
+	defaultBranch = main
