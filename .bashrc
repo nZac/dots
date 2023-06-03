@@ -2,6 +2,10 @@ set -o vi
 
 if [ "$(uname)" == "Darwin" ]; then
     PATH=/opt/homebrew/bin:$PATH
+    export HOMEBREW_PREFIX=$(brew --prefix)
+
+    export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
+    export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
 fi
 
 if [ -f /etc/profile.d/bash_completion.sh ]; then
@@ -44,11 +48,19 @@ fi
 
 if command -v pyenv &> /dev/null
 then
-    export PYENV_ROOT="$HOME/j/pyenv"
+    export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
-    source $(pyenv root)/completions/pyenv.bash
+    
+    [ -s "$(pyenv root)/completions/pyenv.bash" ] && \. "$(pyenv root)/completions/pyenv.bash"
+    [ -s "$HOMEBREW_PREFIX/opt/pyenv/completions/pyenv.bash" ] && \. "$HOMEBREW_PREFIX/opt/pyenv/completions/pyenv.bash"
+    
+    # Check if libpq through hhomebrew is installed and add it to the path for psycopg builds
+    if [ -f "$HOMEBREW_PREFIX/opt/libpq/bin/pg_config" ];
+    then
+        export PATH=$PATH:"$HOMEBREW_PREFIX/opt/libpq/bin" 
+    fi
 fi
 
 if [ -f /usr/local/go/bin/go ]; then
@@ -59,6 +71,13 @@ if command -v go &> /dev/null
 then
     export GOPATH="$HOME/j/go"
     export PATH="$GOPATH/bin:$PATH"
+fi
+
+
+if [ "$(uname)" == "Darwin" ];
+then
+    [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+    [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
 fi
 
 
@@ -115,3 +134,5 @@ listening() {
         echo "Usage: listening [pattern]"
     fi
 }
+
+
