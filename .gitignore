@@ -3,6 +3,7 @@
 .lesshst
 .wget-hsts
 .bash_history
+.postgres-data
 
 .aws
 .cache

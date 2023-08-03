@@ -1,5 +1,7 @@
 set -o vi
 
+echo "setting up shell..."
+
 if [ "$(uname)" == "Darwin" ]; then
     PATH=/opt/homebrew/bin:$PATH
     export HOMEBREW_PREFIX=$(brew --prefix)
@@ -8,9 +10,9 @@ if [ "$(uname)" == "Darwin" ]; then
     export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
 fi
 
-if [ -f /etc/profile.d/bash_completion.sh ]; then
-    source "/etc/profile.d/bash_completion.sh"
-fi
+[ -f /etc/profile.d/bash_completion.sh ] && . "/etc/profile.d/bash_completion.sh"
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" '
 export EDITOR=vim
@@ -19,7 +21,7 @@ export PROJECTS_DIR=$HOME/j
 
 
 # If not using 1Password for SSH authentication, uncomment this
-# export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+export SSH_AUTH_SOCK="/Users/nzac/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
 alias dots='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias e=$EDITOR
@@ -27,7 +29,7 @@ alias e=$EDITOR
 
 # Support user based docker
 if [ -S "/run/user/$(id -u)/docker.sock" ]; then
-    export DOCKER_HOST="unix:///run/user/$(id -u)/docker.sock" 
+    export DOCKER_HOST="unix:///run/user/$(id -u)/docker.sock"
 fi
 
 if [ -f $HOME/.cargo/env ]; then
@@ -52,14 +54,14 @@ then
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
-    
+
     [ -s "$(pyenv root)/completions/pyenv.bash" ] && \. "$(pyenv root)/completions/pyenv.bash"
     [ -s "$HOMEBREW_PREFIX/opt/pyenv/completions/pyenv.bash" ] && \. "$HOMEBREW_PREFIX/opt/pyenv/completions/pyenv.bash"
-    
+
     # Check if libpq through hhomebrew is installed and add it to the path for psycopg builds
     if [ -f "$HOMEBREW_PREFIX/opt/libpq/bin/pg_config" ];
     then
-        export PATH=$PATH:"$HOMEBREW_PREFIX/opt/libpq/bin" 
+        export PATH=$PATH:"$HOMEBREW_PREFIX/opt/libpq/bin"
     fi
 fi
 
@@ -81,7 +83,7 @@ then
 fi
 
 
-if [ -f $HOME/.nvm/nvm.sh ]; 
+if [ -f $HOME/.nvm/nvm.sh ];
 then
     export NVM_DIR="$HOME/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -135,4 +137,4 @@ listening() {
     fi
 }
 
-
+alias ll="ls -lah"
