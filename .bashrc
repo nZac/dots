@@ -10,12 +10,19 @@ if [ "$(uname)" == "Darwin" ]; then
     export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
 fi
 
+if command -v nvim &> /dev/null; then
+    export EDITOR=nvim
+    alias vim="nvim"
+else
+    export EDITOR=vim
+fi
+alias e=$EDITOR
+
 [ -f /etc/profile.d/bash_completion.sh ] && . "/etc/profile.d/bash_completion.sh"
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" '
-export EDITOR=vim
 export GPG_TTY=$(tty)
 export PROJECTS_DIR=$HOME/j
 
@@ -24,7 +31,6 @@ export PROJECTS_DIR=$HOME/j
 export SSH_AUTH_SOCK="/Users/nzac/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
 alias dots='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias e=$EDITOR
 
 
 # Support user based docker
@@ -47,6 +53,8 @@ fi
 if [ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
     source $HOME/.nix-profile/etc/profile.d/nix.sh
 fi
+
+
 
 if command -v pyenv &> /dev/null
 then
