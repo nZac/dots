@@ -111,7 +111,7 @@ fi
 
 user_host_info() {
     # Print out the hostname if this prompt is over ssh
-    if [ -v ${SSH_CLIENT+} ]; then
+    if [ -n "${SSH_CLIENT}" ]; then
         echo "${HOSTNAME}"
     fi
 }
