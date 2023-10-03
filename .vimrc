@@ -1,1 +1,0 @@
-/Users/nzac/.config/nvim/init.vim

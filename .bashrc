@@ -2,13 +2,16 @@ set -o vi
 
 echo "setting up shell..."
 
-if [ "$(uname)" == "Darwin" ]; then
-    PATH=/opt/homebrew/bin:$PATH
-    export HOMEBREW_PREFIX=$(brew --prefix)
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin
 
+if [ "$(uname)" == "Darwin" ]; then
+    export HOMEBREW_PREFIX=$(brew --prefix)
+    
     export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
     export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
 fi
+
+
 
 if command -v nvim &> /dev/null; then
     export EDITOR=nvim
@@ -42,8 +45,9 @@ if [ -f $HOME/.cargo/env ]; then
   source "$HOME/.cargo/env"
 fi
 
-if [ -f $HOME/.config/op/plugins.sh ]; then
-  source "$HOME/.config/op/plugins.sh"
+if [ -f "$HOME/.config/op/plugins.sh" ]; then
+    echo "Setting up One Password"
+    source "$HOME/.config/op/plugins.sh"
 fi
 
 if [ -f /etc/profile.d/nix.sh ]; then
@@ -74,7 +78,7 @@ then
 fi
 
 if [ -f /usr/local/go/bin/go ]; then
-    export PATH=/usr/local/go/bin:$PATH
+    export PATH=$PATH:/usr/local/go/bin
 fi
 
 if command -v go &> /dev/null
@@ -98,7 +102,7 @@ then
         [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
-export PATH=$HOME/bin:$HOME/.local/bin:$PATH
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin
 
 if command -v direnv &> /dev/null
 then
@@ -122,7 +126,6 @@ git_root() {
 }
 
 if [ "$(uname)" == "Darwin" ]; then
-    PATH=/opt/homebrew/bin:$PATH
     rm -f $HOME/.gnupg/gpg-agent.conf
     ln -s $HOME/.gnupg/gpg-agent.conf.mac $HOME/.gnupg/gpg-agent.conf
 else
