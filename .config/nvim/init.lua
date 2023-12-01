@@ -202,7 +202,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>tf', ':TestFile<CR>', { desc = '[T]est [F]ile' })
       vim.keymap.set('n', '<leader>tl', ':TestLast<CR>', { desc = '[T]est [L]last' })
     end,
-  }
+  },
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -215,16 +215,13 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'plugins' },
+  --    { import = 'plugins' }
 }, {})
-
-vim.keymap.set("n", "<leader>tr", function() require("neotest").run.run() end,
-  { desc = "Run Nearest Test", silent = true })
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
-vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+-- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 
 -- Set highlight on search
 vim.o.hlsearch = false
@@ -297,7 +294,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 require('telescope').setup {
   defaults = {
     file_ignore_patterns = {
-      "node_modules"
+      ".postgres-data/*",
+      ".git/*",
+      "node_modules",
+      "venv",
+      ".*egg-info",
     },
     mappings = {
       i = {
@@ -323,7 +324,14 @@ vim.keymap.set('n', '<leader>/', function()
 end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>ff', function()
+    require('telescope.builtin').find_files({
+      hidden = true,
+      no_ignore = true,
+    })
+  end,
+  { desc = '[S]earch [F]iles' }
+)
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
@@ -332,14 +340,20 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
-  -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
+  -- Install these languages
+  ensure_installed = { "lua", "python", "typescript", "tsx" },
 
-  -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-  auto_install = false,
+  -- install async
+  sync_install = false,
 
-  highlight = { enable = true },
-  indent = { enable = true },
+  -- Install automatically
+  auto_install = true,
+
+  -- Ignore these installs when using "all"
+  ignore_install = {},
+
+  modules = {},
+
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -349,6 +363,7 @@ require('nvim-treesitter.configs').setup {
       node_decremental = '<M-space>',
     },
   },
+
   textobjects = {
     select = {
       enable = true,
@@ -399,7 +414,12 @@ require('nvim-treesitter.configs').setup {
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>di', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set("n", "<leader>q", function()
+  vim.diagnostic.setloclist({ open = false }) -- don't open and focus
+  local window = vim.api.nvim_get_current_win()
+  vim.cmd.lwindow()                           -- open+focus loclist if has entries, else close -- this is the magic toggle command
+  vim.api.nvim_set_current_win(window)        -- restore focus to window you were editing (delete this if you want to stay in loclist)
+end, {})
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
@@ -457,7 +477,6 @@ end
 local servers = {
   -- clangd = {},
   -- gopls = {},
-  -- pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
@@ -468,6 +487,7 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+  marksman = {}
 }
 
 -- Setup neovim lua configuration
@@ -476,6 +496,11 @@ require('neodev').setup()
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+capabilities.textDocument.publishDiagnostics = {
+  tagSupport = {
+    valueSet = { 2 }
+  }
+}
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
@@ -509,11 +534,14 @@ require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 cmp.setup {
+  enabled = true,
+
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end,
   },
+
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),

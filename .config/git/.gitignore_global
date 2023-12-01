@@ -1,3 +1,5 @@
 .postgres-data
 .envrc
 .DS_Store
+__pycache__
+.python-version
