@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# If the postgres server directory doesn't exist create it
+if [ ! -d ./.postgres-data ]; then
+    mkdir ./.postgres-data
+    initdb --locale=C -E UTF-8 -U postgres -W ./.postgres-data
+fi
+
+# Start the postgres server
+postgres -D ./.postgres-data

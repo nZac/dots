@@ -221,7 +221,7 @@ require('lazy').setup({
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
--- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 
 -- Set highlight on search
 vim.o.hlsearch = false
@@ -277,6 +277,9 @@ vim.keymap.set('n', '<leader>e', '<cmd>bp|bd #<cr>', { silent = true })
 -- Make escape useful in a terminal
 vim.keymap.set("t", '<ESC>', '<C-\\><C-N>', { silent = true })
 
+-- Scratch buffer
+vim.keymap.set('n', '<leader>sp', ':e ~/.scrachpad<cr>', { silent = true })
+
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -294,9 +297,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 require('telescope').setup {
   defaults = {
     file_ignore_patterns = {
-      ".postgres-data/*",
       ".git/*",
       "node_modules",
+      ".terraform",
       "venv",
       ".*egg-info",
     },
