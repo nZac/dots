@@ -2,16 +2,34 @@ set -o vi
 
 echo "setting up shell..."
 
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 if [ "$(uname)" == "Darwin" ]; then
-    export HOMEBREW_PREFIX=$(brew --prefix)
+    HOMEBREW_PREFIX="$(/opt/homebrew/bin/brew --prefix)";
+    export HOMEBREW_PREFIX="${HOMEBREW_PREFIX}"
+    export PATH="/opt/homebrew/bin:${PATH+:$PATH}";
     
     export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
     export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
+
+    # If not using 1Password for SSH authentication, uncomment this
+    export SSH_AUTH_SOCK="/Users/nzac/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 fi
 
+if [ "$(uname)" == "Linux" ]; then
+    
+    # https://www.shellcheck.net/wiki/SC2155
+    HOMEBREW_PREFIX="$(/home/linuxbrew/.linuxbrew/bin/brew --prefix)";
+    export HOMEBREW_PREFIX="${HOMEBREW_PREFIX}"
 
+    # Use homebrew compiler instead of system compiler
+    export CC="${HOMEBREW_PREFIX}/gcc-13"
+    export HOMEBREW_CELLAR="${HOMEBREW_PREFIX}/Cellar";
+    export HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew";
+    export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin${PATH+:$PATH}";
+    export MANPATH="${HOMEBREW_PREFIX}/share/man${MANPATH+:$MANPATH}:";
+    export INFOPATH="${HOMEBREW_PREFIX}/share/info:${INFOPATH:-}";
+fi
 
 if command -v nvim &> /dev/null; then
     export EDITOR=nvim
@@ -19,29 +37,28 @@ if command -v nvim &> /dev/null; then
 else
     export EDITOR=vim
 fi
-alias e=$EDITOR
+alias e='$EDITOR'
 
 [ -f /etc/profile.d/bash_completion.sh ] && . "/etc/profile.d/bash_completion.sh"
-[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+[[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]] && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 
-
+GPG_TTY="$(tty)"
+export GPG_TTY="${GPG_TTY}"
 export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" '
-export GPG_TTY=$(tty)
 export PROJECTS_DIR=$HOME/j
 
 
-# If not using 1Password for SSH authentication, uncomment this
-export SSH_AUTH_SOCK="/Users/nzac/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
 alias dots='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 
 # Support user based docker
 if [ -S "/run/user/$(id -u)/docker.sock" ]; then
-    export DOCKER_HOST="unix:///run/user/$(id -u)/docker.sock"
+    DOCKER_HOST="unix:///run/user/$(id -u)/docker.sock"
+    export DOCKER_HOST="${DOCKER_HOST}"
 fi
 
-if [ -f $HOME/.cargo/env ]; then
+if [ -f "$HOME/.cargo/env" ]; then
   source "$HOME/.cargo/env"
 fi
 
@@ -50,25 +67,17 @@ if [ -f "$HOME/.config/op/plugins.sh" ]; then
     source "$HOME/.config/op/plugins.sh"
 fi
 
-if [ -f /etc/profile.d/nix.sh ]; then
-    source /etc/profile.d/nix.sh
-fi
-
-if [ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
-    source $HOME/.nix-profile/etc/profile.d/nix.sh
-fi
-
-
 
 if command -v pyenv &> /dev/null
 then
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
+    PYENV_ROOT="$(pyenv root)"
+    export PYENV_ROOT="${PYENV_ROOT}"
+    export PATH="${PYENV_ROOT}/bin:$PATH"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 
-    [ -s "$(pyenv root)/completions/pyenv.bash" ] && \. "$(pyenv root)/completions/pyenv.bash"
-    [ -s "$HOMEBREW_PREFIX/opt/pyenv/completions/pyenv.bash" ] && \. "$HOMEBREW_PREFIX/opt/pyenv/completions/pyenv.bash"
+    [ -s "${PYENV_ROOT}/completions/pyenv.bash" ] && \. "${PYENV_ROOT}/completions/pyenv.bash"
+    [ -s "${HOMEBREW_PREFIX}/opt/pyenv/completions/pyenv.bash" ] && \. "${HOMEBREW_PREFIX}/opt/pyenv/completions/pyenv.bash"
 
     # Check if libpq through hhomebrew is installed and add it to the path for psycopg builds
     if [ -f "$HOMEBREW_PREFIX/opt/libpq/bin/pg_config" ];
@@ -88,14 +97,11 @@ then
 fi
 
 
-if [ "$(uname)" == "Darwin" ];
-then
-    [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
-    [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
-fi
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
 
 
-if [ -f $HOME/.nvm/nvm.sh ];
+if [ -f "$HOME/.nvm/nvm.sh" ];
 then
     export NVM_DIR="$HOME/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
