@@ -4,6 +4,7 @@
 .wget-hsts
 .bash_history
 .postgres-data
+.CFUserTextEncoding
 
 .aws
 .cache
@@ -16,6 +17,13 @@
 .nvm
 .terraform.d
 Desktop
+Documents
+Downloads
+Movies
+Music
+Pictures
+Public
+Library
 bin
 fontconfig
 go
@@ -24,28 +32,39 @@ snap
 tmp
 
 
-.config/monitors.xml
+!.gnupg/gpg-agent.conf.linux
+!.gnupg/gpg-agent.conf.mac
+.bash_sessions/
+.config/1Password
 .config/Code/
 .config/cachix
 .config/dconf/
 .config/enchant/
 .config/evolution/
 .config/gedit/
+.config/github-copilot
 .config/gnome-initial-setup-done
 .config/gtk-3.0/
 .config/ibus/
+.config/monitors.xml
 .config/nix
+.config/op
 .config/pulse/
 .config/user-dirs.dirs
 .config/user-dirs.locale
-.local/share/
 .gnupg/
-!.gnupg/gpg-agent.conf.mac
-!.gnupg/gpg-agent.conf.linux
 .local/
+.local/share/
+.mono
 .pki/
+.psql_history
+.pyenv
+.python_history
 .ssh/
 .sudo_as_admin_successful
+.swiftpm
+.zsh_history
+.zsh_sessions
 
 .config/Synergy/
 .synergy

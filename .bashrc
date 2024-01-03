@@ -14,6 +14,7 @@ if [ "$(uname)" == "Darwin" ]; then
 
     # If not using 1Password for SSH authentication, uncomment this
     export SSH_AUTH_SOCK="/Users/nzac/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+    export BASH_SILENCE_DEPRECATION_WARNING=1
 fi
 
 if [ "$(uname)" == "Linux" ]; then
