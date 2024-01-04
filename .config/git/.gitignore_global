@@ -4,17 +4,3 @@
 __pycache__
 .python-version
 
-.CFUserTextEncoding
-.bash_sessions/
-.config/1Password
-.config/github-copilot
-.config/op
-.mono
-.psql_history
-.pyenv
-.python_history
-.swiftpm
-.zsh_sessions
-.zsh_history
-Documents
-!Documents

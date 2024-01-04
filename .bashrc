@@ -1,8 +1,9 @@
+#!/usr/bin/env bash
+
 set -o vi
 
-echo "setting up shell..."
-
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+export HOMEBREW_NO_ENV_HINTS=1
 
 if [ "$(uname)" == "Darwin" ]; then
     HOMEBREW_PREFIX="$(/opt/homebrew/bin/brew --prefix)";

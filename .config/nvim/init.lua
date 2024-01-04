@@ -222,6 +222,7 @@ require('lazy').setup({
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+vim.cmd [[autocmd VimResized * wincmd =]]
 
 -- Set highlight on search
 vim.o.hlsearch = false
@@ -242,6 +243,8 @@ vim.o.breakindent = true
 
 -- Save undo history
 vim.o.undofile = true
+
+vim.o.cursorline = true
 
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true

@@ -39,3 +39,5 @@
 [merge]
 	conflictstyle = diff3
 	tool = vimdiff
+[advice]
+	skippedCherryPicks = false
