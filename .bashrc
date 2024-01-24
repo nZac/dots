@@ -41,8 +41,8 @@ else
 fi
 alias e='$EDITOR'
 
-[ -f /etc/profile.d/bash_completion.sh ] && . "/etc/profile.d/bash_completion.sh"
-[[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]] && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+[ -f /etc/profile.d/bash_completion.sh ] && source "/etc/profile.d/bash_completion.sh"
+[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ] && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 
 GPG_TTY="$(tty)"
 export GPG_TTY="${GPG_TTY}"
