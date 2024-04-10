@@ -15,7 +15,10 @@
 .nix-profile
 .npm
 .nvm
+.iterm2*
+.ipython
 .terraform.d
+Applications
 Desktop
 Documents
 Downloads
@@ -31,6 +34,8 @@ j
 snap
 tmp
 
+.scrachpad
+.sentryclirc
 
 !.gnupg/gpg-agent.conf.linux
 !.gnupg/gpg-agent.conf.mac
@@ -52,8 +57,16 @@ tmp
 .config/pulse/
 .config/user-dirs.dirs
 .config/user-dirs.locale
+.cocoapods/
+.config/configstore/
+.config/fish/
+.config/htop/
+.config/pgcli/
+.config/zed/
 .gnupg/
 .local/
+.cups/
+.redisinsight-app/
 .local/share/
 .mono
 .pki/
@@ -65,6 +78,8 @@ tmp
 .swiftpm
 .zsh_history
 .zsh_sessions
+.docker
+.angular-config.json
 
 .config/Synergy/
 .synergy

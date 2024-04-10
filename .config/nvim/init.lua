@@ -32,12 +32,14 @@ require('lazy').setup({
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
+  'tpope/vim-surround',
+  'tpope/vim-unimpaired',
+
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
   'christoomey/vim-tmux-navigator',
-  'github/copilot.vim',
   'lepture/vim-jinja',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
@@ -52,7 +54,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -69,6 +71,7 @@ require('lazy').setup({
 
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
@@ -118,18 +121,19 @@ require('lazy').setup({
         component_separators = '|',
         section_separators = '',
       },
+      sections = {
+        lualine_c = {
+          { 'filename', path = 1 }
+        }
+      }
     },
   },
 
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
+    main = "ibl",
+    opts = {},
   },
 
   -- "gc" to comment visual regions/lines
@@ -173,35 +177,6 @@ require('lazy').setup({
     end,
   },
 
-  -- null-ls
-
-  {
-    'jose-elias-alvarez/null-ls.nvim',
-    config = function()
-      local null_ls = require 'null-ls'
-      null_ls.setup {
-        sources = {
-          -- Lua.
-          null_ls.builtins.formatting.stylua,
-          -- Go.
-          null_ls.builtins.formatting.golines,
-          null_ls.builtins.diagnostics.staticcheck,
-          -- Python.
-          null_ls.builtins.formatting.black,
-          -- JavaScript, etc.
-          null_ls.builtins.formatting.prettier.with {
-            extra_filetypes = { 'svelte' },
-          },
-          -- Shell.
-          null_ls.builtins.diagnostics.shellcheck,
-          null_ls.builtins.formatting.shfmt,
-          -- SQL.
-          null_ls.builtins.formatting.pg_format,
-        },
-      }
-    end,
-  },
-
   {
     'vim-test/vim-test',
     lazy = false,
@@ -209,6 +184,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>tn', ':TestNearest<CR>', { desc = '[T]est [N]earest' })
       vim.keymap.set('n', '<leader>tf', ':TestFile<CR>', { desc = '[T]est [F]ile' })
       vim.keymap.set('n', '<leader>tl', ':TestLast<CR>', { desc = '[T]est [L]last' })
+
+      vim.g["test#python#runner"] = 'pytest'
     end,
   },
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -223,13 +200,12 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  --    { import = 'plugins' }
+  { import = 'custom.plugins' }
 }, {})
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
-vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 vim.cmd [[autocmd VimResized * wincmd =]]
 
 -- Set highlight on search
@@ -244,7 +220,7 @@ vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
+-- vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -291,7 +267,10 @@ vim.keymap.set("t", '<ESC>', '<C-\\><C-N>', { silent = true })
 -- Scratch buffer
 vim.keymap.set('n', '<leader>sp', ':e ~/.scrachpad<cr>', { silent = true })
 
+-- Git key commands
 vim.keymap.set({ 'n', 'v' }, 'gX', ':GitLink<cr>', { silent = true })
+vim.keymap.set('n', '<leader>gs', require('telescope.builtin').git_status, { silent = true, desc = "[G]it [S]tatus" })
+vim.keymap.set('n', '<leader>gd', ':Gdiffsplit<cr>', { silent = true, desc = "[G]it [D]iff Split" })
 
 
 -- [[ Highlight on yank ]]
@@ -312,9 +291,12 @@ require('telescope').setup {
     file_ignore_patterns = {
       ".git/*",
       "node_modules",
+      ".ruff_cache",
       ".terraform",
       "venv",
       ".*egg-info",
+      "__pycache__",
+      "pytest_cache"
     },
     mappings = {
       i = {
@@ -328,10 +310,13 @@ require('telescope').setup {
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
+-- Save a little easier 
+vim.keymap.set('n', '<leader>S', '<cmd>w<CR>')
+
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-vim.keymap.set('n', '/', function()
+vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
     winblend = 10,
@@ -340,7 +325,8 @@ vim.keymap.set('n', '/', function()
 end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<leader>ff', function()
+vim.keymap.set('n', '<leader>fp', 'gwap')
+vim.keymap.set('n', '<leader>F', function()
     require('telescope.builtin').find_files({
       hidden = true,
       no_ignore = true,
@@ -357,7 +343,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Install these languages
-  ensure_installed = { "lua", "python", "typescript", "tsx" },
+  ensure_installed = { "lua", "python", "typescript", "tsx", "html", "htmldjango" },
 
   -- install async
   sync_install = false,
@@ -427,6 +413,8 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- Diagnostic keymaps
+
+vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { desc = '[L]azy [G]it' })
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>di', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
@@ -482,6 +470,8 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
+
+
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
@@ -495,8 +485,21 @@ local servers = {
   -- gopls = {},
   -- rust_analyzer = {},
   -- tsserver = {},
-  html = { filetypes = { 'html', 'twig', 'hbs' } },
+  html = {
+    filetypes = { 'html', 'htmldjango' },
+    init_options = { provideFormatter = false },
+  },
 
+  terraformls = {
+    init_options = {
+      terraform = {
+        path = "/opt/homebrew/bin/terraform"
+      }
+    }
+  },
+
+  pyright = {},
+  tsserver = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -532,6 +535,7 @@ mason_lspconfig.setup_handlers {
       on_attach = on_attach,
       settings = servers[server_name],
       filetypes = (servers[server_name] or {}).filetypes,
+      init_options = (servers[server_name] or {}).init_options
     }
   end
 }

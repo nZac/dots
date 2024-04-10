@@ -39,7 +39,9 @@ if command -v nvim &> /dev/null; then
 else
     export EDITOR=vim
 fi
+
 alias e='$EDITOR'
+
 
 [ -f /etc/profile.d/bash_completion.sh ] && source "/etc/profile.d/bash_completion.sh"
 [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ] && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
@@ -81,11 +83,12 @@ then
     [ -s "${PYENV_ROOT}/completions/pyenv.bash" ] && \. "${PYENV_ROOT}/completions/pyenv.bash"
     [ -s "${HOMEBREW_PREFIX}/opt/pyenv/completions/pyenv.bash" ] && \. "${HOMEBREW_PREFIX}/opt/pyenv/completions/pyenv.bash"
 
-    # Check if libpq through hhomebrew is installed and add it to the path for psycopg builds
-    if [ -f "$HOMEBREW_PREFIX/opt/libpq/bin/pg_config" ];
-    then
-        export PATH=$PATH:"$HOMEBREW_PREFIX/opt/libpq/bin"
-    fi
+fi
+    
+# Check if libpq through hhomebrew is installed and add it to the path for psycopg builds
+if [ -f "$HOMEBREW_PREFIX/opt/libpq/bin/pg_config" ];
+then
+    export PATH=$PATH:"$HOMEBREW_PREFIX/opt/libpq/bin"
 fi
 
 if [ -f /usr/local/go/bin/go ]; then
@@ -157,3 +160,23 @@ listening() {
 }
 
 alias ll="ls -lah"
+
+
+_complete_ssh_hosts ()
+{
+        COMPREPLY=()
+        cur="${COMP_WORDS[COMP_CWORD]}"
+        comp_ssh_hosts=`cat ~/.ssh/known_hosts | \
+                        cut -f 1 -d ' ' | \
+                        sed -e s/,.*//g | \
+                        grep -v ^# | \
+                        uniq | \
+                        grep -v "\[" ;
+                cat ~/.ssh/config ~/.ssh/config.d/*.conf | \
+                        grep "^Host " | \
+                        awk '{print $2}'
+                `
+        COMPREPLY=( $(compgen -W "${comp_ssh_hosts}" -- $cur))
+        return 0
+}
+complete -F _complete_ssh_hosts ssh
