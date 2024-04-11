@@ -40,7 +40,14 @@ else
     export EDITOR=vim
 fi
 
-alias e='$EDITOR'
+editor(){
+    printf '\033]2;%s\033\\' 'vim'
+    $EDITOR
+    printf '\033]2;%s\033\\' 'bash'
+}
+
+alias e="editor"
+
 
 
 [ -f /etc/profile.d/bash_completion.sh ] && source "/etc/profile.d/bash_completion.sh"
