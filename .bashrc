@@ -46,7 +46,7 @@ editor(){
     printf '\033]2;%s\033\\' 'bash'
 }
 
-alias e="editor"
+alias e="$EDITOR"
 
 
 

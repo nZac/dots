@@ -41,6 +41,7 @@ tmp
 !.gnupg/gpg-agent.conf.linux
 !.gnupg/gpg-agent.conf.mac
 .bash_sessions/
+.config/containers
 .config/1Password
 .config/Code/
 .config/cachix
