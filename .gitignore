@@ -5,6 +5,7 @@
 .bash_history
 .postgres-data
 .CFUserTextEncoding
+.at
 
 .aws
 .cache
@@ -83,6 +84,7 @@ tmp
 .angular-config.json
 
 .config/Synergy/
+.config/iterm2/
 .synergy
 .viminfo
 .parallels
