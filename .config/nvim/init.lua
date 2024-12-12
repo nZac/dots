@@ -2,9 +2,7 @@
 vim.g.mapleader = ';'
 vim.g.maplocalleader = ';'
 
-vim.g.python3_host_prog = "/Users/nzac/.pyenv/versions/neovim/bin/python3.11"
-
-
+-- vim.g.python3_host_prog = "/Users/nzac/.pyenv/versions/neovim/bin/python3.11"
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -68,13 +66,11 @@ require('lazy').setup({
       -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
+      'rafamadriz/friendly-snippets',
 
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
-
-      -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets',
     },
   },
 
@@ -158,6 +154,71 @@ require('lazy').setup({
         end,
       },
     },
+    config = function()
+      -- https://github.com/nvim-telescope/telescope.nvim/issues/2104#issuecomment-1223790155
+      require('telescope').setup {
+        defaults = {
+          layout_strategy = 'vertical',
+          layout_config = {
+            vertical = { width = 0.9 },
+          },
+        },
+        pickers = {
+          buffers = {
+            mappings = {
+              n = {
+                ['d'] = 'delete_buffer',
+              }
+            }
+          },
+
+          find_files = {
+            find_command = { 'fd', '--hidden', '--type', 'f', '--strip-cwd-prefix', '-E', '.git/' }
+          }
+        }
+      }
+
+
+      -- Enable telescope fzf native, if installed
+      pcall(require('telescope').load_extension, 'fzf')
+
+      local builtins = require("telescope.builtin")
+      -- See `:help telescope.builtin`
+      vim.keymap.set('n', '<leader>?', builtins.oldfiles, { desc = '[?] Find recently opened files' })
+      vim.keymap.set('n', '<leader><space>', builtins.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader>/', function()
+        -- You can pass additional configuration to telescope to change theme, layout, etc.
+        builtins.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+          winblend = 10,
+          previewer = false,
+        })
+      end, { desc = '[/] Fuzzily search in current buffer' })
+
+      vim.keymap.set('n', '<leader>sf', function()
+          builtins.find_files({
+            hidden = true,
+          })
+        end,
+        { desc = '[S]earch [F]iles' }
+      )
+      vim.keymap.set('n', '<leader>sF', function()
+          builtins.find_files({
+            hidden = true,
+            no_ignore = true,
+          })
+        end,
+        { desc = '[S]earch All [F]iles' }
+      )
+      vim.keymap.set('n', '<leader>sh', builtins.help_tags, { desc = '[S]earch [H]elp' })
+      vim.keymap.set('n', '<leader>sw', builtins.grep_string, { desc = '[S]earch current [W]ord' })
+      vim.keymap.set('n', '<leader>sg', builtins.live_grep, { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>sd', builtins.diagnostics, { desc = '[S]earch [D]iagnostics' })
+      vim.keymap.set('n', '<leader>gs', builtins.git_status, { silent = true, desc = "[G]it [S]tatus" })
+      vim.keymap.set('n', 'gr', builtins.lsp_references, { silent = true, desc = "[G]oto [R]eferences" })
+      vim.keymap.set('n', '<leader>ds', builtins.lsp_document_symbols, { silent = true, desc = "[D]ocument [S]ymbols" })
+      vim.keymap.set('n', '<leader>ss', builtins.lsp_dynamic_workspace_symbols,
+        { silent = true, desc = "[S]earch [S]ymbols" })
+    end
   },
 
   {
@@ -181,7 +242,7 @@ require('lazy').setup({
     'vim-test/vim-test',
     lazy = false,
     config = function()
-      vim.keymap.set('n', '<leader>tn', ':TestNearest<CR>', { desc = '[T]est [N]earest' })
+      vim.keymap.set('n', '<leader>tn', ':TestNearest --pdb<CR>', { desc = '[T]est [N]earest' })
       vim.keymap.set('n', '<leader>tf', ':TestFile<CR>', { desc = '[T]est [F]ile' })
       vim.keymap.set('n', '<leader>tl', ':TestLast<CR>', { desc = '[T]est [L]last' })
 
@@ -191,7 +252,6 @@ require('lazy').setup({
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
-  -- require 'kickstart.plugins.autoformat',
   -- require 'kickstart.plugins.debug',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -269,7 +329,6 @@ vim.keymap.set('n', '<leader>sp', ':e ~/.scrachpad<cr>', { silent = true })
 
 -- Git key commands
 vim.keymap.set({ 'n', 'v' }, 'gX', ':GitLink<cr>', { silent = true })
-vim.keymap.set('n', '<leader>gs', require('telescope.builtin').git_status, { silent = true, desc = "[G]it [S]tatus" })
 vim.keymap.set('n', '<leader>gd', ':Gdiffsplit<cr>', { silent = true, desc = "[G]it [D]iff Split" })
 
 
@@ -284,66 +343,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
--- [[ Configure Telescope ]]
--- See `:help telescope` and `:help telescope.setup()`
-require('telescope').setup {
-  defaults = {
-    file_ignore_patterns = {
-      ".git/*",
-      "node_modules",
-      ".ruff_cache",
-      ".terraform",
-      "venv",
-      ".*egg-info",
-      "__pycache__",
-      "pytest_cache"
-    },
-    mappings = {
-      i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
-      },
-    },
-  },
-}
 
--- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
-
--- Save a little easier 
+-- Save a little easier
 vim.keymap.set('n', '<leader>S', '<cmd>w<CR>')
-
--- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-vim.keymap.set('n', '<leader>/', function()
-  -- You can pass additional configuration to telescope to change theme, layout, etc.
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = false,
-  })
-end, { desc = '[/] Fuzzily search in current buffer' })
-
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<leader>fp', 'gwap')
-vim.keymap.set('n', '<leader>F', function()
-    require('telescope.builtin').find_files({
-      hidden = true,
-      no_ignore = true,
-    })
-  end,
-  { desc = '[S]earch [F]iles' }
-)
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Install these languages
-  ensure_installed = { "lua", "python", "typescript", "tsx", "html", "htmldjango" },
+  ensure_installed = { "lua", "python", "tsx", "html", "htmldjango" },
 
   -- install async
   sync_install = false,
@@ -446,11 +454,8 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>ss', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[S]earch [S]ymbols')
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -481,12 +486,14 @@ end
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
+  -- clangd = {},
+  -- gopls = {},
+  -- rust_analyzer = {},
+  -- tsserver = {},
   html = {
     filetypes = { 'html', 'htmldjango' },
     init_options = { provideFormatter = false },
   },
-
-  eslint = {},
 
   terraformls = {
     init_options = {
@@ -496,6 +503,7 @@ local servers = {
     }
   },
 
+  eslint = {},
   pyright = {},
   ts_ls = {},
   lua_ls = {
@@ -513,6 +521,7 @@ require('neodev').setup()
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.publishDiagnostics = {
   tagSupport = {
     valueSet = { 2 }
