@@ -1,3 +1,6 @@
+# Symlink this file from options
+.gitconfig
+
 .bash_logout
 .profile
 .lesshst
@@ -6,6 +9,8 @@
 .postgres-data
 .CFUserTextEncoding
 .at
+.direnv/
+.yarn/
 
 .aws
 .cache
