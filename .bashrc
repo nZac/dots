@@ -47,20 +47,24 @@ editor(){
 }
 
 alias e="$EDITOR"
+alias terraform="op run --no-masking -- terraform"
 
 
 
 [ -f /etc/profile.d/bash_completion.sh ] && source "/etc/profile.d/bash_completion.sh"
 [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ] && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+[ -r "${HOMEBREW_PREFIX}/etc/bash_completion.d/00_bash_completion_compat.bash" ] && source "${HOMEBREW_PREFIX}/etc/bash_completion.d/00_bash_completion_compat.bash"
 
 GPG_TTY="$(tty)"
 export GPG_TTY="${GPG_TTY}"
 export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" '
 export PROJECTS_DIR=$HOME/j
 
-
-
 alias dots='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+# DOCKER aliases
+#
+alias cleanupcontainers='docker rm -v -f $(docker ps -qa)'
 
 
 # Support user based docker
@@ -77,7 +81,6 @@ if [ -f "$HOME/.config/op/plugins.sh" ]; then
     echo "Setting up One Password"
     source "$HOME/.config/op/plugins.sh"
 fi
-
 
 if command -v pyenv &> /dev/null
 then
@@ -106,6 +109,11 @@ if command -v go &> /dev/null
 then
     export GOPATH="$HOME/j/go"
     export PATH="$GOPATH/bin:$PATH"
+fi
+
+if command -v mise &> /dev/null
+then
+    eval "$(mise activate bash)"
 fi
 
 
