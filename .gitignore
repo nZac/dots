@@ -13,30 +13,31 @@
 .direnv/
 .yarn/
 
+.Trash
 .aws
-.cache
 .bundle
-.cloudflared
+.cache
 .cfg
+.cloudflared
+.ipython
+.iterm2*
 .mozilla
 .nix-channels
 .nix-defexpr
 .nix-profile
 .npm
 .nvm
-.iterm2*
-.ipython
 .terraform.d
 Applications
-Google\ Drive
 Desktop
 Documents
 Downloads
+Google\ Drive
+Library
 Movies
 Music
 Pictures
 Public
-Library
 bin
 fontconfig
 go
