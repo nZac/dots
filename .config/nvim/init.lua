@@ -494,18 +494,10 @@ local servers = {
     filetypes = { 'html', 'htmldjango' },
     init_options = { provideFormatter = false },
   },
-
-  terraformls = {
-    init_options = {
-      terraform = {
-        path = "/opt/homebrew/bin/terraform"
-      }
-    }
-  },
-
+  taplo = {},
+  terraformls = {},
   eslint = {},
   pyright = {},
-  ts_ls = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },

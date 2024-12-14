@@ -1,6 +1,7 @@
 # Symlink this file from options
 .gitconfig
 
+.sqlite_history
 .bash_logout
 .profile
 .lesshst
@@ -14,6 +15,8 @@
 
 .aws
 .cache
+.bundle
+.cloudflared
 .cfg
 .mozilla
 .nix-channels
@@ -25,6 +28,7 @@
 .ipython
 .terraform.d
 Applications
+Google\ Drive
 Desktop
 Documents
 Downloads
@@ -46,12 +50,14 @@ tmp
 !.gnupg/gpg-agent.conf.linux
 !.gnupg/gpg-agent.conf.mac
 .bash_sessions/
+.config/stripe
 .config/containers
 .config/1Password
 .config/Code/
 .config/cachix
 .config/dconf/
 .config/enchant/
+.config/hcloud/cli.toml
 .config/evolution/
 .config/gedit/
 .config/github-copilot
