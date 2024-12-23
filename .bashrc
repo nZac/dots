@@ -63,7 +63,6 @@ export PROJECTS_DIR=$HOME/j
 alias dots='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # DOCKER aliases
-#
 alias cleanupcontainers='docker rm -v -f $(docker ps -qa)'
 
 
@@ -114,6 +113,7 @@ fi
 if command -v mise &> /dev/null
 then
     eval "$(mise activate bash)"
+    alias mr="mise run"
 fi
 
 
