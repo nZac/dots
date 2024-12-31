@@ -113,7 +113,8 @@ fi
 if command -v mise &> /dev/null
 then
     eval "$(mise activate bash)"
-    alias mr="mise run"
+    alias mr="mise run --quiet"
+    alias mrl="mise run"
 fi
 
 
