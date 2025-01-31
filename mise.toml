@@ -2,6 +2,10 @@
 node = '22'
 python = '3.13'
 
+[tasks.quick-push]
+description = "Run this to quickly ammend and push to a git repo"
+run = 'git commit --amend --no-edit --quiet && git push --force-with-lease --quiet && echo "Done"'
+
 [tasks.ecr-login]
 description = "Docker login to an AWS ECR"
 run = '''

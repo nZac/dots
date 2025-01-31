@@ -16,6 +16,8 @@ if [ "$(uname)" == "Darwin" ]; then
     # If not using 1Password for SSH authentication, uncomment this
     export SSH_AUTH_SOCK="/Users/nzac/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
     export BASH_SILENCE_DEPRECATION_WARNING=1
+
+    [ -s "$HOMEBREW_PREFIX/etc/bash_completion" ] && \. "$HOMEBREW_PREFIX/etc/bash_completion"
 fi
 
 if [ "$(uname)" == "Linux" ]; then
@@ -48,8 +50,6 @@ editor(){
 
 alias e="$EDITOR"
 alias terraform="op run --no-masking -- terraform"
-
-
 
 [ -f /etc/profile.d/bash_completion.sh ] && source "/etc/profile.d/bash_completion.sh"
 [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ] && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
@@ -91,7 +91,6 @@ then
 
     [ -s "${PYENV_ROOT}/completions/pyenv.bash" ] && \. "${PYENV_ROOT}/completions/pyenv.bash"
     [ -s "${HOMEBREW_PREFIX}/opt/pyenv/completions/pyenv.bash" ] && \. "${HOMEBREW_PREFIX}/opt/pyenv/completions/pyenv.bash"
-
 fi
     
 # Check if libpq through hhomebrew is installed and add it to the path for psycopg builds
@@ -110,9 +109,15 @@ then
     export PATH="$GOPATH/bin:$PATH"
 fi
 
+if command -v fzf &> /dev/null
+then
+    eval "$(fzf --bash)"
+fi
+
 if command -v mise &> /dev/null
 then
     eval "$(mise activate bash)"
+    [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
     alias mr="mise run --quiet"
     alias mrl="mise run"
 fi
