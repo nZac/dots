@@ -14,6 +14,7 @@
 .yarn/
 
 .Trash
+.azure
 .aws
 .aws-sam
 .bundle
@@ -58,6 +59,7 @@ tmp
 .bash_sessions/
 .cocoapods/
 .config/1Password
+.config/nxcloud
 .config/Code/
 .config/Synergy/
 .config/cachix
