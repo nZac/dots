@@ -5,34 +5,25 @@ set -o vi
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 export HOMEBREW_NO_ENV_HINTS=1
 
-if [ "$(uname)" == "Darwin" ]; then
-    HOMEBREW_PREFIX="$(/opt/homebrew/bin/brew --prefix)"
-    export HOMEBREW_PREFIX="${HOMEBREW_PREFIX}"
-    export PATH="/opt/homebrew/bin:${PATH+:$PATH}"
+HOMEBREW_PREFIX="$(/opt/homebrew/bin/brew --prefix)"
+export HOMEBREW_PREFIX="${HOMEBREW_PREFIX}"
+export PATH="/opt/homebrew/bin:${PATH+:$PATH}"
 
-    export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
-    export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
+export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
+export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
 
-    # If not using 1Password for SSH authentication, uncomment this
-    export SSH_AUTH_SOCK="/Users/nzac/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-    export BASH_SILENCE_DEPRECATION_WARNING=1
-
+if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    source "${HOME}/.config/complete_alias"
+else
+    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+        [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+    done
 fi
 
-if [ "$(uname)" == "Linux" ]; then
-
-    # https://www.shellcheck.net/wiki/SC2155
-    HOMEBREW_PREFIX="$(/home/linuxbrew/.linuxbrew/bin/brew --prefix)"
-    export HOMEBREW_PREFIX="${HOMEBREW_PREFIX}"
-
-    # Use homebrew compiler instead of system compiler
-    export CC="${HOMEBREW_PREFIX}/gcc-13"
-    export HOMEBREW_CELLAR="${HOMEBREW_PREFIX}/Cellar"
-    export HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew"
-    export PATH="${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin${PATH+:$PATH}"
-    export MANPATH="${HOMEBREW_PREFIX}/share/man${MANPATH+:$MANPATH}:"
-    export INFOPATH="${HOMEBREW_PREFIX}/share/info:${INFOPATH:-}"
-fi
+# If not using 1Password for SSH authentication, uncomment this
+export SSH_AUTH_SOCK="/Users/nzac/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
 if command -v nvim &>/dev/null; then
     export EDITOR=nvim
@@ -104,6 +95,9 @@ if command -v mise &>/dev/null; then
     eval "$(mise activate bash)"
     alias mr="mise run --quiet"
     alias mrl="mise run"
+
+    complete -F _complete_alias mr
+    complete -F _complete_alias mrl
 fi
 
 if [ -f "$HOME/.nvm/nvm.sh" ]; then
@@ -175,15 +169,3 @@ _complete_ssh_hosts() {
     return 0
 }
 complete -F _complete_ssh_hosts ssh
-
-if type brew &>/dev/null; then
-    HOMEBREW_PREFIX="$(brew --prefix)"
-    if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
-        source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-    else
-        for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
-            [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
-        done
-    fi
-
-fi
