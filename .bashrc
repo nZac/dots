@@ -8,6 +8,7 @@ export HOMEBREW_NO_ENV_HINTS=1
 HOMEBREW_PREFIX="$(/opt/homebrew/bin/brew --prefix)"
 export HOMEBREW_PREFIX="${HOMEBREW_PREFIX}"
 export PATH="/opt/homebrew/bin:${PATH+:$PATH}"
+export PATH="/opt/homebrew/opt/sqlite/bin:${PATH+:$PATH}"
 
 export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
 export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
