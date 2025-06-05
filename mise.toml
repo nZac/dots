@@ -10,7 +10,11 @@ run = 'git commit --amend --no-edit --quiet && git push --force-with-lease --qui
 description = "Docker login to an AWS ECR"
 run = '''
 #!/usr/bin/env bash
-aws ecr get-login-password --region {{option(name='region', default='us-east-2')}} \
+
+export ACCOUNT="{{arg(name='account')}}"
+export REGION="{{option(name='region', default='us-east-2')}}"
+
+aws ecr get-login-password --region ${REGION} \
 	| docker login --username AWS --password-stdin \
-	$(aws sts get-caller-identity | jq -r .Account).dkr.ecr.{{option(name='region', default='us-east-2')}}.amazonaws.com
+	$ACCOUNT.dkr.ecr.${REGION}.amazonaws.com
 '''

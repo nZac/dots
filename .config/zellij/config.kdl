@@ -142,6 +142,14 @@ keybinds clear-defaults=true {
         bind "Alt f" { ToggleFloatingPanes; }
         // bind "Alt h" { MoveFocusOrTab "left"; }
         bind "Alt i" { MoveTab "left"; }
+
+        bind "Alt s" {
+            LaunchOrFocusPlugin "session-manager" {
+                floating true
+                move_to_focused_tab true
+            }
+            SwitchToMode "locked"
+        }
         // bind "Alt j" { MoveFocus "down"; }
         // bind "Alt k" { MoveFocus "up"; }
         // bind "Alt l" { MoveFocusOrTab "right"; }
