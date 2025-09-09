@@ -1,7 +1,3 @@
-[tools]
-node = '22'
-python = '3.13'
-
 [tasks.quick-push]
 description = "Run this to quickly ammend and push to a git repo"
 run = 'git commit --amend --no-edit --quiet && git push --force-with-lease --quiet && echo "Done"'
@@ -13,6 +9,21 @@ run = '''
 
 export ACCOUNT="{{arg(name='account')}}"
 export REGION="{{option(name='region', default='us-east-2')}}"
+
+aws ecr get-login-password --region ${REGION} \
+	| docker login --username AWS --password-stdin \
+	$ACCOUNT.dkr.ecr.${REGION}.amazonaws.com
+'''
+
+[tasks.copy-image-to-region]
+description = "Move image from one ECR region to another"
+run = '''
+#!/usr/bin/env bash
+
+export ACCOUNT="{{arg(name='account')}}"
+export REPO="{{arg(name='repository')}}"
+export SOURCE_REGION="{{arg(name='source_region', default='us-east-2')}}"
+export DEST_REGION="{{arg(name='dest_region')}}"
 
 aws ecr get-login-password --region ${REGION} \
 	| docker login --username AWS --password-stdin \
