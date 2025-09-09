@@ -113,3 +113,9 @@ tmp
 .vscode-server/
 .vscode/
 *.code-workspace
+.ansible
+.bun
+.config/packer
+.config/wireshark
+.tig_history
+.rediscli_history
