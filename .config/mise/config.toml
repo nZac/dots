@@ -4,3 +4,6 @@ idiomatic_version_file_enable_tools = []
 
 [settings.python]
 uv_venv_auto = true
+
+[tools]
+node = "lts"
