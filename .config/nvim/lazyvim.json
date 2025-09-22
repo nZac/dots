@@ -1,0 +1,15 @@
+{
+  "extras": [
+    "lazyvim.plugins.extras.lang.ansible",
+    "lazyvim.plugins.extras.lang.go",
+    "lazyvim.plugins.extras.lang.python",
+    "lazyvim.plugins.extras.lang.sql",
+    "lazyvim.plugins.extras.lang.typescript",
+    "lazyvim.plugins.extras.lang.yaml"
+  ],
+  "install_version": 8,
+  "news": {
+    "NEWS.md": "11866"
+  },
+  "version": 8
+}
