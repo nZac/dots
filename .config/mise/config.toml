@@ -6,4 +6,6 @@ idiomatic_version_file_enable_tools = []
 uv_venv_auto = true
 
 [tools]
+go = "1"
 node = "lts"
+python = "3"
