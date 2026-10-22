@@ -1,0 +1,19 @@
+#!/bin/sh
+# Pre-grant the locally built vim-zellij-navigator plugin so Zellij doesn't deny it.
+# Zellij keys its permission cache by the plugin's absolute path.
+set -eu
+{{ if eq .chezmoi.os "darwin" -}}
+dir="$HOME/Library/Caches/org.Zellij-Contributors.Zellij"
+{{- else -}}
+dir="${XDG_CACHE_HOME:-$HOME/.cache}/zellij"
+{{- end }}
+plugin="$HOME/.config/zellij/plugins/vim-zellij-navigator.wasm"
+mkdir -p "$dir"
+touch "$dir/permissions.kdl"
+grep -qF "\"$plugin\"" "$dir/permissions.kdl" || cat >>"$dir/permissions.kdl" <<KDL
+"$plugin" {
+    WriteToStdin
+    ChangeApplicationState
+    ReadApplicationState
+}
+KDL

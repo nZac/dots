@@ -1,0 +1,12 @@
+[settings]
+experimental = true
+
+[tools]
+usage = "latest"
+neovim = "latest"
+zellij = "latest"
+gh = "latest"
+jq = "latest"
+node = "latest"
+rust = "latest"
+zig = "latest"

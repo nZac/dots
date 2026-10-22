@@ -1,0 +1,16 @@
+[push]
+  autoSetupRemote = true
+
+[init]
+	defaultBranch = main
+
+[user]
+	name = Nick Zaccardi
+	email = nick@springblock.dev
+  signingkey = {{ .chezmoi.homeDir }}/.ssh/id_ecdsa.pub
+
+[gpg]
+  format = ssh
+
+[commit]
+  gpgsign = true

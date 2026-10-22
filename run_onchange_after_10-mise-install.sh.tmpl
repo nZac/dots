@@ -1,0 +1,6 @@
+#!/bin/sh
+# Re-runs whenever the global mise config changes.
+# mise config hash: {{ include "private_dot_config/mise/config.toml" | sha256sum }}
+set -eu
+PATH="$HOME/.local/bin:$PATH"
+mise install --yes
