@@ -1,0 +1,2 @@
+[tools]
+rust = { version = "stable", components = "rust-analyzer,clippy,rustfmt" }
