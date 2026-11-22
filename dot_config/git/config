@@ -17,15 +17,22 @@
 	mnemonicPrefix = true    # More intuitive refs in diff output
 [commit]
 	verbose = true           # Include diff comment in commit message template
+	gpgsign = true           # Sign every commit (with the SSH key under [user])
 [column]
 	ui = auto 			     # Output in columns when possible
 [branch]
 	sort = -committerdate    # Sort branches by most recent commit first
 [tag]
 	sort = -version:refname  # Sort version numbers as you would expect
+	gpgsign = true           # Sign every tag
 [rerere]
 	enabled = true           # Record and reuse conflict resolutions
 	autoupdate = true        # Apply stored conflict resolutions automatically
 [user]
 	name = Nick Zaccardi
 	email = nick@springblock.dev
+	signingkey = ~/.ssh/id_ed25519.pub
+[gpg]
+	format = ssh             # Sign with an SSH key instead of GPG
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers  # Keys trusted when verifying
